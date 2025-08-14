@@ -1,0 +1,279 @@
+/* For testing purpose */
+/* border: 2px dashed #ccc; */
+
+.addFileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 2em;
+  background-color: #222;
+}
+
+.addFileContainerDrag{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 2em;
+  background-color: #222;
+  background-color:  #0000ff;
+}
+
+.addFileHeading{
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #aaa;
+}
+
+.addFileText{
+  font-size: 1em;
+  font-weight: 500;
+  color: #666;
+}
+
+.filesSection{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 2em;
+}
+
+.filesHeader {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #aaa;
+  padding-bottom: 1em;
+}
+
+.fileItem{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em;
+  width: 100%;
+  padding: 0.3em;
+}
+
+.deleteIcon {
+  cursor: pointer;
+}
+
+.convertButton {
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1em;
+  font-weight: 500;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 0.25em;
+  cursor: pointer;
+}
+
+.chooseDestinationFolderBtn {
+  background-color: #007bff;
+  color: #fff;
+  font-size: 0.8em;
+  font-weight: 500;
+  padding: 0.3em 0.5em;
+  border: none;
+  border-radius: 0.25em;
+  cursor: pointer;
+}
+
+.convertButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.fileConverted, .fileNotConverted, .fileConverting, .fileError {
+  width: 7em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.fileNotConverted {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 1em;
+  font-size: 0.9em;
+  color: #09436a; 
+}
+
+.fileConverted {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 1em;
+  font-size: 0.9em;
+  color: #00ff00;
+}
+
+.fileConverting {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 1em;
+  font-size: 0.9em;
+  color: #ffa500; 
+}
+
+.fileError {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 1em;
+  font-size: 0.9em;
+  color: #ff0000;
+}
+
+ul.filesList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+}
+
+.fileName, .fileSize, .fileType {
+  font-size: 0.9em;
+  width: 8em;
+  color: #333;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.fileSize{
+  width: 5em;
+}
+
+.fileType{
+  width: 2em
+}
+
+.convertTo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12em;
+  gap: 1em;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.fileDestination{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 1em;
+  font-size: 0.9em;
+  color: #555;
+  width: 25em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.fileDestinationText{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.progressBar {
+  width: 10em;
+  height: 1.5em;
+  border-radius: 15px;
+  background-color: #eee;
+}
+
+@media (prefers-color-scheme: dark) {
+  .addFileContainer {
+    background-color: #111;
+  }
+
+  .addFileContainerDrag {
+    background-color: #380868;
+  }
+
+  .addFileHeading, .addFileText {
+    color: #ccc;
+  }
+
+  .filesSection {
+    background-color: #111;
+  }
+
+  .filesHeader {
+    color: #ccc;
+  }
+
+  .fileItem {
+    color: #ddd;
+  }
+
+  .convertButton {
+    background-color: #0056b3;
+  }
+
+  .convertButton:disabled {
+    background-color: #888;
+  }
+
+  .chooseDestinationFolderBtn {
+    background-color: #0056b3;
+  }
+
+  .fileNotConverted {
+    color: #5560ff; 
+  }
+
+  .fileConverted {
+    color: #2e8b2e;
+  }
+
+  .fileConverting {
+    color: #ff8c00; 
+  }
+
+  .fileError {
+    color: #ff5555; 
+  }
+
+  .fileName, .fileSize, .fileType, .convertTo {
+    color: #ddd;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+
+  .fileName{
+    width: 4em;
+  }
+
+  .fileDestination{
+    width: 20em;
+  }
+
+  .progressBar {
+    width: 4em;
+  }
+  
+}

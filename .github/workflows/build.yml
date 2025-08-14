@@ -1,0 +1,92 @@
+name: Linting and Building
+description: This workflow runs on every push to the repository and performs linting and building tasks.
+on: [push]
+
+permissions:
+  contents: write
+
+jobs:
+    Linting:
+        name: Linting Job
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out repository code
+              uses: actions/checkout@v4
+
+            -   name: Setup Node Js
+                uses: actions/setup-node@v4
+                with:
+                    node-version: 22
+
+            - name: Install dependencies
+              run: |
+                npm install
+
+            # Will setup later on
+
+    Building:
+        name: Building Job
+        strategy:
+          matrix:
+            os: [ubuntu-latest, windows-latest, macos-latest]
+        runs-on: ${{ matrix.os }}
+        needs: Linting
+        steps:
+            - name: Check out repository code
+              uses: actions/checkout@v4
+
+            - name: Setup Node Js
+              uses: actions/setup-node@v4
+              with:
+                node-version: 22
+
+            - name: Install dependencies
+              run: |
+                npm install
+
+            - name: Build executable Windows
+              if: matrix.os == 'windows-latest'
+              run: |
+                npm run build-windows
+
+            - name: Build executable Linux
+              if: matrix.os == 'ubuntu-latest'
+              run: |
+                npm run build-linux
+
+            - name: Build executable Mac
+              if: matrix.os == 'macos-latest'
+              run: |
+                npm run build-mac
+
+            - name: Zip Windows Files
+              if: (matrix.os == 'windows-latest')
+              shell: pwsh
+              run: Compress-Archive -Path dist/FrediaConverter-win32-x64/* -DestinationPath dist-windows.zip
+              
+            - name: Zip Linux Files
+              if: (matrix.os == 'ubuntu-latest')
+              run: zip -r dist-linux.zip dist/FrediaConverter-linux-x64/
+              
+            - name: Zip Mac Files
+              if: (matrix.os == 'macos-latest')
+              run: zip -r dist-macos.zip dist/FrediaConverter-darwin-x64/
+
+            - name: Create GitHub Release Windows
+              if: startsWith(github.ref, 'refs/tags/') && (matrix.os == 'windows-latest')
+              uses: softprops/action-gh-release@v1
+              with:
+                files: dist-windows.zip
+
+            - name: Create GitHub Release Linux
+              if: startsWith(github.ref, 'refs/tags/') && (matrix.os == 'ubuntu-latest')
+              uses: softprops/action-gh-release@v1
+              with:
+                files: dist-linux.zip
+
+            - name: Create GitHub Release Mac
+              if: startsWith(github.ref, 'refs/tags/') && (matrix.os == 'macos-latest')
+              uses: softprops/action-gh-release@v1
+              with:
+                files: dist-macos.zip
+   

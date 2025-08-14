@@ -1,0 +1,22 @@
+{
+  "name": "fredia-converter",
+  "version": "1.0.0",
+  "description": "Free Media Converter",
+  "main": "index.js",
+  "scripts": {
+    "start": "powershell -ExecutionPolicy Bypass -File run.ps1",
+    "build": "electron-packager . FrediaConverter --platform=win32 --arch=x64 --out=dist --overwrite",
+    "build-windows": "electron-packager . FrediaConverter --platform=win32 --arch=x64 --out=dist --overwrite",
+    "build-linux": "electron-packager . FrediaConverter --platform=linux --arch=x64 --out=dist --overwrite",
+    "build-mac": "electron-packager . FrediaConverter --platform=darwin --arch=x64 --out=dist --overwrite"
+  },
+  "author": "Abhay Jha",
+  "license": "MIT",
+  "devDependencies": {
+    "@electron/packager": "^18.4.1",
+    "electron": "^37.2.6"
+  },
+  "dependencies": {
+    "ffmpeg-static": "^5.2.0"
+  }
+}

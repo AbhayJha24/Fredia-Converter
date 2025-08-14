@@ -1,0 +1,39 @@
+{
+    "supportedFileTypesToLabels": {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "image/gif": "gif",
+        "image/bmp": "bmp",
+        "image/webp": "webp",
+        "audio/mpeg": "mp3",
+        "audio/wav": "wav",
+        "audio/aac": "aac",
+        "audio/flac": "flac",
+        "video/mp4": "mp4",
+        "video/x-msvideo": "avi",
+        "video/x-matroska": "mkv",
+        "video/quicktime": "mov"
+    },
+    
+    "fileCategories": {
+        "images": ["image/jpeg", "image/png", "image/bmp", "image/webp"],
+        "audio": ["audio/mpeg", "audio/wav", "audio/aac", "audio/flac"],
+        "video": ["video/mp4", "image/gif", "video/x-msvideo", "video/x-matroska", "video/quicktime"]
+    },
+
+    "supportedFileTypes":[
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/bmp",
+        "image/webp",
+        "audio/mpeg",
+        "audio/wav",
+        "audio/aac",
+        "audio/flac",
+        "video/mp4",
+        "video/x-msvideo",
+        "video/x-matroska",
+        "video/quicktime"
+    ]
+}
