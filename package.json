@@ -7,8 +7,11 @@
     "start": "powershell -ExecutionPolicy Bypass -File run.ps1",
     "build": "electron-packager . FrediaConverter --platform=win32 --arch=x64 --out=dist --overwrite",
     "build-windows": "electron-packager . FrediaConverter --platform=win32 --arch=x64 --out=dist --overwrite",
+    "build-windows-arm": "electron-packager . FrediaConverter --platform=win32 --arch=arm64 --out=dist --overwrite",
     "build-linux": "electron-packager . FrediaConverter --platform=linux --arch=x64 --out=dist --overwrite",
-    "build-mac": "electron-packager . FrediaConverter --platform=darwin --arch=x64 --out=dist --overwrite"
+    "build-linux-arm": "electron-packager . FrediaConverter --platform=linux --arch=arm64 --out=dist --overwrite",
+    "build-mac": "electron-packager . FrediaConverter --platform=darwin --arch=x64 --out=dist --overwrite",
+    "build-mac-arm": "electron-packager . FrediaConverter --platform=darwin --arch=arm64 --out=dist --overwrite"
   },
   "author": "Abhay Jha",
   "license": "MIT",
