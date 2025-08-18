@@ -8,21 +8,53 @@ function getProgressByBytes(filePath, processedBytes) {
   return ((processedBytes / totalBytes) * 100).toFixed(2);
 }
 
-function handleConvertFile(event, path, filename, destPath, ext, index, window) {
+function handleConvertFile(event, path, filename, destPath, ext, index, window, useGPU, currRun) {
 
     return new Promise(async (resolve, reject)=>{
         const iPath = path
         const oPath = (process.platform === 'win32') ? `${destPath}\\${filename}_converted.${ext}` : `${destPath}/${filename}_converted.${ext}`
 
-        const args = [
-            '-i', iPath,       // input file
-            oPath             // output file
-        ];
+        let args = undefined;
+
+        if (useGPU === undefined) {
+            args = [
+                '-i', iPath,       // input file
+                oPath             // output file
+            ];
+        }
+        else {
+
+            // GPU Encoder Map
+
+            const encoderMap = {
+                cuda: 'h264_nvenc',
+                nvenc: 'h264_nvenc',
+                qsv: 'h264_qsv',
+                d3d11va: 'libx264',
+                dxva2: 'libx264',
+                nvdec: 'libx264' // decoder only, using software encoder
+            };
+
+            const encoder = encoderMap[useGPU] || 'libx264';
+
+            args = [
+                '-hwaccel', useGPU,  // hardware acceleration type
+                '-i', iPath,         // input file
+                '-c:v', encoder,     // encoder
+                oPath                // output file
+            ];
+        }
 
         let ffmpeg = undefined;
 
         try{
             ffmpeg = spawn(ffmpegPath, args);
+            fs.appendFile(`./logs/log-${currRun}.txt`, `Actual Command passed -> ffmpeg ${args}`, (error) => {
+                if (error) {
+                    console.error('Error writing log file:', error);
+                    return;
+                }
+            });
         }
         catch(error){
             reject(error)
@@ -36,6 +68,12 @@ function handleConvertFile(event, path, filename, destPath, ext, index, window) 
         let processedBytes = 0;
 
         ffmpeg.stderr.on('data', data => {
+            fs.appendFile(`./logs/log-${currRun}.txt`, `Ffmpeg stderr: ${data.toString()}`, (error) => {
+                if (error) {
+                    console.error('Error writing log file:', error);
+                    return;
+                }
+            });
             processedBytes += data.length;
             window.webContents.send('update-progress', {progress: getProgressByBytes(path, processedBytes)*100, idx: index})
         });

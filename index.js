@@ -1,7 +1,7 @@
 
 // Import Electron modules
-const { app, BrowserWindow, ipcMain, screen } = require('electron/main')
-require('dotenv').config()
+const { app, BrowserWindow, ipcMain, screen, Notification } = require('electron/main')
+const fs = require('fs');
 
 // Import Node.js path module
 const path = require('node:path')
@@ -9,7 +9,23 @@ const path = require('node:path')
 // Importing auxiliary functions
 const getDestinationFolder = require('./auxiliaries/getDestinationFolder')
 const handleConvertFile = require('./auxiliaries/handleConvertFile')
+const hasAvailableGPU = require('./auxiliaries/hasAvailableGPU')
 
+// Create a log dir
+
+try {
+  fs.mkdirSync('./logs', { recursive: true });
+} catch (error) {
+  if (error.code !== 'EEXIST') { 
+    console.error(`Failed to create a logs directory... ${error}`);
+  }
+}
+
+const currRun = Date.now()
+
+// GPU support
+
+let useGPU = undefined;
 
 // Declaring a variable to hold the details required for creating the main application window
 
@@ -49,6 +65,27 @@ app.whenReady().then(() => {
     app.setAppUserModelId('Fredia Converter');
   }
 
+  // Check for GPU Support
+
+  try {
+    const {support, supportType} = hasAvailableGPU(currRun)
+    if (support) {
+      useGPU = supportType
+    }
+  } catch (err) {
+      new Notification({
+        title: "GPU Support Check Failed",
+        body: `Some unexpected error occured when Fredia Converter tried to check for GPU acceleration on your system`
+      }).show()
+    
+      fs.appendFile(`./logs/log-${currRun}.txt`, err, (error) => {
+        if (error) {
+          console.error('Error writing log file:', error);
+          return;
+        }
+      });
+  }
+
   // Get the primary display's work area size to set the initial window size
   const primaryDisplay = screen.getPrimaryDisplay();
   const { width, height } = primaryDisplay.size;
@@ -59,9 +96,11 @@ app.whenReady().then(() => {
 
   // Set up IPC handlers
   ipcMain.handle('convert-file', (event, path, filename, destPath, ext, index)=>{
-    return handleConvertFile(event, path, filename, destPath, ext, index, win)
+    return handleConvertFile(event, path, filename, destPath, ext, index, win, useGPU, currRun)
   })
-  ipcMain.handle('choose-folder', getDestinationFolder)
+  ipcMain.handle('choose-folder', (event)=>{
+    return getDestinationFolder(event, currRun)
+  })
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {

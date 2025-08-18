@@ -1,4 +1,8 @@
+# Log Files
+log/
+logs/
 logs
+log.*
 *.log
 npm-debug.log*
 yarn-debug.log*
