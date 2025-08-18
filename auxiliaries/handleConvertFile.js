@@ -1,6 +1,7 @@
 const { spawn } = require('child_process');
 const fs = require("fs")
 const ffmpegPath = require('ffmpeg-static');
+const { Notification } = require('electron/main')
 
 function getProgressByBytes(filePath, processedBytes) {
   const totalBytes = fs.statSync(filePath).size;
@@ -42,9 +43,17 @@ function handleConvertFile(event, path, filename, destPath, ext, index, window) 
         ffmpeg.on('close', code => {
             if (code === 0) {
                 resolve(true)
+                new Notification({
+                    title: "Media Converted Successfully",
+                    body: `Media file ${filename} converted successfully to ${ext}`
+                }).show()
             }
             else{
                 resolve(false)
+                new Notification({
+                    title: "Media Convertion Failed",
+                    body: `Media file ${filename} failed to convert to ${ext} due to some unexpected error`
+                }).show()
             }
         });
     })

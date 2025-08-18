@@ -1,12 +1,12 @@
 
 // Import Electron modules
 const { app, BrowserWindow, ipcMain, screen } = require('electron/main')
+require('dotenv').config()
 
 // Import Node.js path module
 const path = require('node:path')
 
 // Importing auxiliary functions
-const handleSaveFile = require('./auxiliaries/handleSaveFile')
 const getDestinationFolder = require('./auxiliaries/getDestinationFolder')
 const handleConvertFile = require('./auxiliaries/handleConvertFile')
 
@@ -26,7 +26,7 @@ const createWindow = (width, height, scaleFactor) => {
     })
 
     // Set the title of the window
-    win.setTitle('Freedia Encoder')
+    win.setTitle('Fredia Converter')
 
     // If in development mode, load the app from the local server otherwise, load the built frontend files
     if (process.env.DEV_MODE === 'true') {
@@ -43,6 +43,12 @@ const createWindow = (width, height, scaleFactor) => {
 
 app.whenReady().then(() => {
 
+  // Set app name correctly on windows
+
+  if (process.platform === 'win32') {
+    app.setAppUserModelId('Fredia Converter');
+  }
+
   // Get the primary display's work area size to set the initial window size
   const primaryDisplay = screen.getPrimaryDisplay();
   const { width, height } = primaryDisplay.size;
@@ -52,7 +58,6 @@ app.whenReady().then(() => {
   const win = createWindow(width, height, scaleFactor)
 
   // Set up IPC handlers
-  ipcMain.on('save-file', handleSaveFile)
   ipcMain.handle('convert-file', (event, path, filename, destPath, ext, index)=>{
     return handleConvertFile(event, path, filename, destPath, ext, index, win)
   })
