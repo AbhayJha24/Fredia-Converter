@@ -78,62 +78,62 @@ jobs:
             - name: Zip Windows Files x64
               if: (matrix.os == 'windows-latest' && matrix.arch == 'x64')
               shell: pwsh
-              run: Compress-Archive -Path dist/FrediaConverter-win32-x64/* -DestinationPath dist-windows-x64.zip
+              run: Compress-Archive -Path dist/FrediaConverter-win32-x64/* -DestinationPath fredia-converter-windows-x64.zip
 
             - name: Zip Windows Files arm64
               if: (matrix.os == 'windows-latest' && matrix.arch == 'arm64')
               shell: pwsh
-              run: Compress-Archive -Path dist/FrediaConverter-win32-arm64/* -DestinationPath dist-windows-arm64.zip
+              run: Compress-Archive -Path dist/FrediaConverter-win32-arm64/* -DestinationPath fredia-converter-windows-arm64.zip
               
             - name: Zip Linux Files x64
               if: (matrix.os == 'ubuntu-latest' && matrix.arch == 'x64')
-              run: zip -r dist-linux-x64.zip dist/FrediaConverter-linux-x64/
+              run: zip -r fredia-converter-linux-x64.zip dist/FrediaConverter-linux-x64/
 
             - name: Zip Linux Files arm64
               if: (matrix.os == 'ubuntu-latest' && matrix.arch == 'arm64')
-              run: zip -r dist-linux-arm64.zip dist/FrediaConverter-linux-arm64/
+              run: zip -r fredia-converter-linux-arm64.zip dist/FrediaConverter-linux-arm64/
               
             - name: Zip Mac Files x64
               if: (matrix.os == 'macos-latest' && matrix.arch == 'x64')
-              run: zip -r dist-macos-x64.zip dist/FrediaConverter-darwin-x64/
+              run: zip -r fredia-converter-macos-x64.zip dist/FrediaConverter-darwin-x64/
               
             - name: Zip Mac Files arm64
               if: (matrix.os == 'macos-latest' && matrix.arch == 'arm64')
-              run: zip -r dist-macos-arm64.zip dist/FrediaConverter-darwin-arm64/
+              run: zip -r fredia-converter-macos-arm64.zip dist/FrediaConverter-darwin-arm64/
 
             - name: Create GitHub Release Windows x64
               if: startsWith(github.ref, 'refs/tags/') && (matrix.os == 'windows-latest' && matrix.arch == 'x64')
               uses: softprops/action-gh-release@v1
               with:
-                files: dist-windows-x64.zip
+                files: fredia-converter-windows-x64.zip
                 
             - name: Create GitHub Release Windows arm64
               if: startsWith(github.ref, 'refs/tags/') && (matrix.os == 'windows-latest' && matrix.arch == 'arm64')
               uses: softprops/action-gh-release@v1
               with:
-                files: dist-windows-arm64.zip
+                files: fredia-converter-windows-arm64.zip
 
             - name: Create GitHub Release Linux x64
               if: startsWith(github.ref, 'refs/tags/') && (matrix.os == 'ubuntu-latest' && matrix.arch == 'x64')
               uses: softprops/action-gh-release@v1
               with:
-                files: dist-linux-x64.zip
+                files: fredia-converter-linux-x64.zip
                 
             - name: Create GitHub Release Linux arm64
               if: startsWith(github.ref, 'refs/tags/') && (matrix.os == 'ubuntu-latest' && matrix.arch == 'arm64')
               uses: softprops/action-gh-release@v1
               with:
-                files: dist-linux-arm64.zip
+                files: fredia-converter-linux-arm64.zip
 
             - name: Create GitHub Release Mac x64
               if: startsWith(github.ref, 'refs/tags/') && (matrix.os == 'macos-latest' && matrix.arch == 'x64')
               uses: softprops/action-gh-release@v1
               with:
-                files: dist-macos-x64.zip
+                files: fredia-converter-macos-x64.zip
                 
             - name: Create GitHub Release Mac arm64
               if: startsWith(github.ref, 'refs/tags/') && (matrix.os == 'macos-latest' && matrix.arch == 'arm64')
               uses: softprops/action-gh-release@v1
               with:
-                files: dist-macos-arm64.zip
+                files: fredia-converter-macos-arm64.zip
    
