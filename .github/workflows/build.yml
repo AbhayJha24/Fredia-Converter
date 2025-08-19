@@ -22,7 +22,10 @@ jobs:
               run: |
                 npm install
 
-            # Will setup later on
+            - name: Run tsc and eslint
+              run: |
+                tsc --project .\tsconfig.json
+                npx eslint .
 
     Building:
         name: Building Job

@@ -16,8 +16,15 @@
   "author": "Abhay Jha",
   "license": "MIT",
   "devDependencies": {
+    "@electron-toolkit/eslint-config": "^2.1.0",
     "@electron/packager": "^18.4.1",
-    "electron": "^37.2.6"
+    "@types/electron": "^1.4.38",
+    "@types/node": "^24.3.0",
+    "electron": "^37.2.6",
+    "eslint": "^9.33.0",
+    "eslint-plugin-import": "^2.32.0",
+    "jiti": "^2.5.1",
+    "typescript": "^5.9.2"
   },
   "dependencies": {
     "dotenv": "^17.2.1",
