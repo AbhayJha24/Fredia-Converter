@@ -99,7 +99,7 @@ function AddFile({setFiles}: AddFileProps) {
     
 
     return (
-        <section>
+        <section className={styles.addFileSection}>
             <div className={dragging? styles.addFileContainerDrag :styles.addFileContainer} ref={fileBox}>
                 <h1 className={styles.addFileHeading}>Add Media</h1>
                 <div className={styles.addFileBox}>

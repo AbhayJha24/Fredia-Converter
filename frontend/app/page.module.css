@@ -42,7 +42,6 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
   padding: 2em;
 }
 
@@ -141,6 +140,11 @@
   color: #ff0000;
 }
 
+.filesListContainer{
+  max-height: 16em;
+  overflow-y: auto;
+}
+
 ul.filesList {
   width: 100%;
   display: flex;
@@ -205,6 +209,7 @@ ul.filesList {
 }
 
 @media (prefers-color-scheme: dark) {
+
   .addFileContainer {
     background-color: #111;
   }
