@@ -5,6 +5,12 @@ Easily drag and drop your media files, choose your desired format and destinatio
 
 ---
 
+## 📸 Fredia Converter UI
+
+![Fredia Converter](fredia_ui.png)
+
+---
+
 ## ✨ Features
 
 - **🖱 Drag & Drop Support** – Simply drop your media files into the app.
@@ -16,12 +22,6 @@ Easily drag and drop your media files, choose your desired format and destinatio
 - **▶ One-Click Conversion** – Hit **Convert** and let Fredia do the rest.
 - **📊 Progress Tracking** – Real-time progress bar for each file.
 - **💻 Cross-Platform** – Works on Windows, macOS, and Linux.
-
----
-
-## 📸 Fredia Converter UI
-
-![Fredia Converter](fredia_ui.png)
 
 ---
 
@@ -41,6 +41,9 @@ Easily drag and drop your media files, choose your desired format and destinatio
 
 > ⚠️ **Caution:** Do not try this option if you are not a developer, otherwise you may end up breaking your head just like I did when I was in the university.
 
+> ⚠️ **Prerequisite:** Make sure you have [Node.js](https://nodejs.org/) (LTS version recommended) installed on your system before proceeding.  
+> You can verify by running `node -v` and `npm -v` in your terminal.
+
 1. **Clone the repository**
    ```bash
    git clone https://github.com/AbhayJha24/fredia-converter.git
@@ -51,7 +54,6 @@ Easily drag and drop your media files, choose your desired format and destinatio
 
     ```bash
     npm install
-    Run the app in development mode
     ```
 
 3. **Build for production**
