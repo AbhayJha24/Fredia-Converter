@@ -33,6 +33,7 @@ jobs:
             - name: Run eslint for Frontend
               run: |
                 cd frontend
+                npm install
                 npx eslint .
 
     Building:
