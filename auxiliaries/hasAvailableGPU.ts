@@ -38,6 +38,69 @@ function getGPUInfoWindows(currRun) {
     }
   }
 }
+
+function getGPUInfoLinux(currRun) {
+  try {
+    let output = execSync('lspci | grep -i nvidia', { encoding: 'utf-8' });
+    const driverOutput = execSync('lsmod | grep -i nvidia', { encoding: 'utf-8' });
+
+    if (output.split('\n').filter(line => line.trim() && (line.includes('nvidia')|| line.includes('NVIDIA')|| line.includes('Nvidia'))).length > 0) {
+        if ((driverOutput.split('\n').filter(line => line.trim() && (line.includes('nvidia')|| line.includes('NVIDIA')|| line.includes('Nvidia'))).length > 0)) {
+            return "nvidia"
+        }
+        else{
+            // Nvidia GPU found but no relevant drivers installed
+
+            new Notification({
+                title: "An Nvidia GPU Found but no drivers installed",
+                body: `Fredia converter will fallback to integrated gpus if any or cpu only`
+            }).show()
+
+            output = execSync('lspci | grep -i intel', { encoding: 'utf-8' });
+
+            if(output.split('\n').filter(line => line.trim() && (line.includes('intel')|| line.includes('INTEL')|| line.includes('Intel'))).length > 0){
+                return "intel"
+            }
+            else{
+                new Notification({
+                    title: "GPU Supported not Detected",
+                    body: `Fredia converter failed to detect any GPU acceleration supported by your device and will use CPU only for conversion`
+                }).show()
+
+                return undefined
+            }
+        }
+    }
+
+    output = execSync('lspci | grep -i intel', { encoding: 'utf-8' });
+
+    if(output.split('\n').filter(line => line.trim() && (line.includes('intel')|| line.includes('INTEL')|| line.includes('Intel'))).length > 0){
+        return "intel"
+    }
+    else{
+        new Notification({
+            title: "GPU Supported not Detected",
+            body: `Fredia converter failed to detect any GPU acceleration supported by your device and will use CPU only for conversion`
+        }).show()
+
+        return undefined
+    }
+  } catch (err) {
+    new Notification({
+      title: "GPU Support Check Failed",
+      body: `Some unexpected error occured when Fredia Converter tried to check for GPU acceleration on your system`
+    }).show()
+
+    if (err instanceof Error) {
+        fs.appendFile(`./logs/log-${currRun}.txt`, `Runtime-Error ${err.name}: ${err.message} \n ${err.stack}`, (error) => {
+            if (error) {
+                console.error('Error writing log file:', error);
+                return;
+            }
+        });
+    }
+  }
+}
  
 function checkGPUSupport(currRun): {
     support: boolean;
@@ -84,10 +147,34 @@ function checkGPUSupport(currRun): {
                     deviceGPUSupportType = undefined
                 }
             }
+
+            else if(platform() === 'linux'){
+                if(hwaccels.includes('cuda') && getGPUInfoLinux(currRun) === 'nvidia'){
+                    deviceGPUSupportType = 'cuda'
+                }
+                else if(hwaccels.includes('nvenc') && getGPUInfoLinux(currRun) === 'nvidia'){
+                    deviceGPUSupportType = 'nvenc'
+                }
+                else if(hwaccels.includes('qsv') && getGPUInfoLinux(currRun) === 'intel'){
+                    deviceGPUSupportType = 'qsv'
+                }
+                // else if(hwaccels.includes('d3d11va')){
+                //     deviceGPUSupportType = 'd3d11va'
+                // }
+                // else if(hwaccels.includes('dxva2')){
+                //     deviceGPUSupportType = 'dxva2'
+                // }
+                else if(hwaccels.includes('nvdec') && getGPUInfoLinux(currRun) === 'nvidia'){
+                    deviceGPUSupportType = 'nvdec'
+                }
+                else{
+                    deviceGPUSupportType = undefined
+                }
+            }
             else{
                 new Notification({
                     title: "GPU Currently not Supported",
-                    body: `Fredia converter currently only supports GPU on windows`
+                    body: `Fredia converter currently only supports GPU on windows and linux`
                 }).show()
 
                 return {support: false, supportType: undefined}
