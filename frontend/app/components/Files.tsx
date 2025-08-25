@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CSS, Theme } from "../Contexts";
 import mapping from "../mappings/supportedFiles.json";
 import { FileDisplay, SupportedFileType } from "../Types/Types";
@@ -20,6 +20,8 @@ export default function Files({filesControls}: FilesProps) {
 
     const styles = useContext(CSS);
     const theme = useContext(Theme);
+
+    const [chooseDestinationButtonDisabled, setChooseDestinationButtonDisabled] = useState<boolean>(false)
 
     useEffect(() => {
       window.nodeAPI.onUpdateProgress((e, {progress, idx})=>{
@@ -54,9 +56,21 @@ export default function Files({filesControls}: FilesProps) {
         // Prevent the default action of the button click
         e.preventDefault();
 
+        // Edge case when the explorer is open and the user clicks the button again
+        if (e.currentTarget.disabled) {
+            return;
+        }
+
+        // First disable the button while the explorer window is open
+        setChooseDestinationButtonDisabled(true)
+
 
         // Call the chooseFolder function from the Electron IPC API to ask the main node process to spin up a dialog to choose a destination directory for the converted file
         const nodeResponse = await window.nodeAPI.chooseFolder();
+
+
+        // Re-Enable the button when the explorer is closed
+        setChooseDestinationButtonDisabled(false)
 
         
         // Set the destination directory of the file in the state for displaying it in the UI
@@ -305,7 +319,7 @@ export default function Files({filesControls}: FilesProps) {
 
                             <span className={styles.fileDestination}>
                                 <span className={styles.fileDestinationText}>{file.destination === "" ? "Destination not choosen" : file.destination}</span>
-                                <button type="button" className={styles.chooseDestinationFolderBtn} onClick={e=>handleDestinationDirectoryChange(e,file.index)}>Choose Destination</button>
+                                <button type="button" disabled={chooseDestinationButtonDisabled} className={styles.chooseDestinationFolderBtn} onClick={e=>handleDestinationDirectoryChange(e,file.index)}>Choose Destination</button>
                             </span>
 
 

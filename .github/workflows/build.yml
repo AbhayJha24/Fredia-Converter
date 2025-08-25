@@ -30,6 +30,11 @@ jobs:
               run: |
                 npx eslint .
 
+            - name: Run eslint for Frontend
+              run: |
+                cd frontend
+                npx eslint .
+
     Building:
         name: Building Job
         strategy:
@@ -54,6 +59,12 @@ jobs:
             - name: Run tsc
               run: |
                 npx tsc --project ./tsconfig.json
+
+            - name: Install Frontend Dependencies & Build the Frontend
+              run: |
+                cd frontend
+                npm install
+                npm run build
 
             - name: Build executable Windows x64
               if: matrix.os == 'windows-latest' && matrix.arch == 'x64'

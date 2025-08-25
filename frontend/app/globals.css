@@ -39,6 +39,11 @@ input, select, button :hover{
   border: none;
 }
 
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 hr {
   border: none;
   height: 1px;
