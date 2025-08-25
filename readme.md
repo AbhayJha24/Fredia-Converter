@@ -28,7 +28,7 @@ Easily drag and drop your media files, choose your desired format and destinatio
 ## 🚀 Installation
 
 ### 📦 Option 1 – Download Prebuilt Binaries (Recommended)
-1. Go to the [GitHub Releases](https://github.com/yourusername/fredia-converter/releases) page.
+1. Go to the [GitHub Releases](https://github.com/AbhayJha24/fredia-converter/releases) page.
 2. Download the installer or archive for your platform:
    - **Windows** – `.exe` installer or `.zip`
    - **macOS** – `.dmg` or `.zip`
